@@ -1,6 +1,9 @@
 {
     "name": "pk/modules",
+    "version": "0.0.1",
+    "homepage": "https://kracik.sk",
     "description": "pk Modules plugin",
+    "license": "MIT",
     "require": {
         "wp-cli/wp-cli-bundle": "^2.4"
     },
