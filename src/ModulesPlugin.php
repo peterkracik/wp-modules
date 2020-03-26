@@ -1,16 +1,16 @@
 <?php
 
-namespace Loop\Modules;
+namespace pk\Modules;
 
-Class ModulesPlugin 
+Class ModulesPlugin
 {
 
-    private const CATEGORY_SLUG = 'loop';
-    private const CATEGORY_TITLE = 'Loop';
+    private const CATEGORY_SLUG = 'pk';
+    private const CATEGORY_TITLE = 'pk';
     private const ACF_DIR = 'acf-json';
     private $modulesFolderName = 'modules';
     private $modulesFolder;
-    
+
     function __construct()
     {
         require_once( dirname(__FILE__) . '/acf/general.php' );
@@ -46,21 +46,21 @@ Class ModulesPlugin
     public function registerModules()
     {
         $dirs = array_filter(glob($this->modulesFolder . "*"), 'is_dir'); // get all subdirectories
-        
+
         // register each module
         foreach($dirs as $module) {
             $this->registerModule($module);
         }
 
-       
+
         // hide not published modules
         add_filter( 'timber/output', function($output, $data, $file)
         {
             // dont show if not publish and not preview
-            if (isset($data['is_preview']) 
-                && $data['is_preview'] == false 
-                && isset($data['data']['is_publish']) 
-                && $data['data']['is_publish'] == false) 
+            if (isset($data['is_preview'])
+                && $data['is_preview'] == false
+                && isset($data['data']['is_publish'])
+                && $data['data']['is_publish'] == false)
             {
                 return null;
             }
@@ -72,7 +72,7 @@ Class ModulesPlugin
     /**
      * register module
      * @param string $module    module name
-     * 
+     *
      */
     public function registerModule(string $module)
     {
@@ -87,7 +87,7 @@ Class ModulesPlugin
 
     /**
      *  add block categories
-     * @param array $categories     default categories 
+     * @param array $categories     default categories
      * @return array                categories containing new one
      */
     public function createBlockCategories(?array $categories) :?array
@@ -112,10 +112,10 @@ Class ModulesPlugin
     {
         // if blocks acf, save it to the module folder if exists
         if (isset($_POST['acf_field_group'])
-            && isset($_POST['acf_field_group']['location']) 
-            && sizeof($_POST['acf_field_group']['location']) == 1 
+            && isset($_POST['acf_field_group']['location'])
+            && sizeof($_POST['acf_field_group']['location']) == 1
             && isset($_POST['acf_field_group']['location']['group_0'])
-            && sizeof($_POST['acf_field_group']['location']['group_0']) == 1 
+            && sizeof($_POST['acf_field_group']['location']['group_0']) == 1
             && isset($_POST['acf_field_group']['location']['group_0']['rule_0'])
             && $_POST['acf_field_group']['location']['group_0']['rule_0']['param'] == 'block'
             && $_POST['acf_field_group']['location']['group_0']['rule_0']['operator'] == '=='
@@ -135,14 +135,14 @@ Class ModulesPlugin
     /**
      * get acf of current module
      * @param array $path   default paths
-     * @return array        paths         
+     * @return array        paths
      */
     public function loadAcfForModulesAcf(?array $path) :?array
     {
         $path = array_merge($path, $this->getModulesAcfJson( $this->modulesFolder )); // modules directories
         return $path;
     }
-    
+
     /**
      * recursively search for .json files
      * @param string $dir       directory to search in

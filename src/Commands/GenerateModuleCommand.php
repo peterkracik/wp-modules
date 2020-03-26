@@ -1,14 +1,14 @@
 <?php
 
-namespace Loop\Modules\Commands;
+namespace pk\Modules\Commands;
 
 use WP_CLI;
 
 Class GenerateModuleCommand
 {
 
-    private const GENERATE_COMMAND_NAME = "loop modules generate";
-    
+    private const GENERATE_COMMAND_NAME = "pk modules generate";
+
     private $exampleFolder = __DIR__ . "/../../example-module";
     private $moduleFolder;
 
@@ -61,7 +61,7 @@ Class GenerateModuleCommand
      *
      * ## EXAMPLES
      *
-     *     wp loop modules genereate test --module_title="My Title"
+     *     wp pk modules genereate test --module_title="My Title"
      *
      * @when after_wp_load
      */
@@ -70,7 +70,7 @@ Class GenerateModuleCommand
         // read settings
         $this->moduleName = self::camel2dashed($args[0]); // assign the name argument
         $this->moduleVariables = $assoc_args ?? []; // assigned other arguments
-        $destFolder = $this->moduleFolder . $this->moduleName; // get the folder 
+        $destFolder = $this->moduleFolder . $this->moduleName; // get the folder
         WP_CLI::line("Generatin module " . $this->moduleName);
         $created = $this->rcopy($this->exampleFolder, $destFolder);
         if (!$created) {
@@ -81,12 +81,12 @@ Class GenerateModuleCommand
         $moduleVariables = $this->moduleVariables;
 
         // replace variables (module name, title etc) in all modules files
-        $files = array_map(function($file) use ($moduleName, $moduleVariables) { 
-            $this->setFilesVariables($file, $moduleName, $moduleVariables); 
+        $files = array_map(function($file) use ($moduleName, $moduleVariables) {
+            $this->setFilesVariables($file, $moduleName, $moduleVariables);
         }, $this->getDirContents($destFolder));
 
         $this->createBlankAcfGroup($moduleName, $moduleVariables['module_title']); // generate acf
-        
+
         WP_CLI::success("Module " . $this->moduleName . " was created in : " . $destFolder);
         WP_CLI::success('HAPPY CODING!');
     }
@@ -107,13 +107,13 @@ Class GenerateModuleCommand
             mkdir($dst);
             $files = scandir($src);
             foreach ($files as $file) {
-                if ($file != "." && $file != "..") $this->rcopy("$src/$file", "$dst/$file"); 
+                if ($file != "." && $file != "..") $this->rcopy("$src/$file", "$dst/$file");
             }
 
             return true;
         }
         else if (file_exists($src)) copy($src, $dst);
-        
+
         return false;
     }
 
@@ -135,7 +135,7 @@ Class GenerateModuleCommand
                 $this->getDirContents($path, $results);
             }
         }
-    
+
         return $results;
     }
 
@@ -152,11 +152,11 @@ Class GenerateModuleCommand
         //replace something in the file string - this is a VERY simple example
         $str = str_replace("MODULE_NAME_ESC", str_replace("-", "_", $moduleName), $str);
         $str = str_replace("MODULE_NAME", $moduleName, $str);
-        
+
         foreach($variables as $key => $value) {
             $str = str_replace(strtoupper($key), $value, $str);
         }
-        
+
         //write the entire string
         file_put_contents($file, $str);
         return true;
@@ -173,7 +173,7 @@ Class GenerateModuleCommand
 
         $conf = array(
             'key'       => "group_" . $moduleName,
-            'title'     => 'Loop Module : ' . $moduleTitle,
+            'title'     => 'pk Module : ' . $moduleTitle,
             'location' => array (
                 array (
                     array (
@@ -208,13 +208,13 @@ Class GenerateModuleCommand
     /**
      * modify text from camel case to dashed
      * @param string $str       text
-     * @return string           replaced              
+     * @return string           replaced
      */
     static function camel2dashed(string $str) :string
     {
         return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $str));
     }
-      
+
 }
 
 new GenerateModuleCommand();

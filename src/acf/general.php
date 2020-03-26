@@ -3,8 +3,8 @@
 if( function_exists('acf_add_local_field_group') ):
 
 acf_add_local_field_group(array(
-	'key' => 'loopModules',
-	'title' => 'Loop Modules : General settings',
+	'key' => 'pk_odules',
+	'title' => 'pk modules : General settings',
 	'fields' => array(
 		array(
 			'key' => 'field_5dd2a69498d3a',

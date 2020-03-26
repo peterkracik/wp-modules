@@ -1,18 +1,18 @@
 {
-    "name": "loop/modules",
-    "description": "Loop Modules plugin",
+    "name": "pk/modules",
+    "description": "pk Modules plugin",
     "require": {
         "wp-cli/wp-cli-bundle": "^2.4"
     },
     "authors": [
         {
             "name": "Peter Kracik",
-            "email": "p.kracik@agentur-loop.com"
+            "email": "peter@kracik.sk"
         }
     ],
     "autoload": {
         "psr-4": {
-            "Loop\\Modules\\": "src/"
+            "pk\\Modules\\": "src/"
         }
     }
 }
